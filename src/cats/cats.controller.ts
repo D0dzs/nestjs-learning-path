@@ -1,7 +1,8 @@
-import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Query, UseGuards } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cats.interface';
+import { AuthGuard } from 'src/guards/auth/auth.guard';
 
 interface CommonResponse {
   message: string;
@@ -30,6 +31,7 @@ export class CatsController {
   }
 
   @Get('random')
+  @UseGuards(AuthGuard)
   async randomCat(): Promise<CommonResponse> {
     const cats = await this.catsService.allCats();
     const randomIndex = Math.floor(Math.random() * cats.length);
