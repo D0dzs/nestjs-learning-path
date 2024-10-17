@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     });
 
     // It's so scuffed please don't judge me ^-^
-    // TODO: A better way to to this... D:
+    // TODO: A better way to do this... D:
     if (!isValidToken) throw new UnauthorizedException('Invalid Token...');
     if (new Date() >= new Date(isValidToken.expiresAt)) throw new UnauthorizedException('Expired Token...');
     else {
