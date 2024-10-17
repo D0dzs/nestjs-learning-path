@@ -15,3 +15,12 @@ model Cat {
   color  String
   gender String
 }
+
+model ValidTokens {
+  token     String   @id @unique
+  createdAt DateTime @default(now())
+  
+  // expiresAt not working at all because no auth is connected therefor "impossible"
+  // to set the value to now() + 5-45minutes. (You have to figure it out how to do so :p)
+  expiresAt DateTime
+}
