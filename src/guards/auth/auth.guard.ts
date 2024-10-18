@@ -16,8 +16,7 @@ export class AuthGuard implements CanActivate {
       },
     });
 
-    // It's so scuffed please don't judge me ^-^
-    // TODO: A better way to do this... D:
+    // {HOST}:{PORT}/token/create, body: {token: randomString} then you can use this endpoint ^-^
     if (!isValidToken) throw new UnauthorizedException('Invalid Token...');
     if (new Date() >= new Date(isValidToken.expiresAt)) throw new UnauthorizedException('Expired Token...');
     else {
@@ -33,7 +32,6 @@ export class AuthGuard implements CanActivate {
       if (!res) throw new InternalServerErrorException();
     }
 
-    // line:9 - Promise<boolean>
     return true;
   }
 }
