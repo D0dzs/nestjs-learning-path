@@ -17,7 +17,7 @@ export class TokenService {
       },
     });
 
-    if (!res) throw new Error('Token not created');
+    if (!res) throw new Error('Failed to create the requested token');
     return { message: 'Token created', token: res };
   }
 
@@ -43,7 +43,7 @@ export class TokenService {
       },
     });
 
-    if (!res) throw new Error('Token not updated');
+    if (!res) throw new Error('Failed to update the token');
     return { message: 'Token expiration date updated', token: res };
   }
 
@@ -54,7 +54,7 @@ export class TokenService {
       },
     });
 
-    if (!res) throw new Error('Token not deleted');
+    if (!res) throw new Error('Failed to delete the token');
     return { message: 'Token deleted', token: res };
   }
 

@@ -1,22 +1,18 @@
 import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Post, Query, UseGuards } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { Cat } from './interfaces/cats.interface';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
-
-interface CommonResponse {
-  message: string;
-  body: any;
-}
+import { CommonResponse } from './interfaces/response.interface';
 
 @Controller('cats')
+@UseGuards(AuthGuard)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Get()
-  async getCats(@Query('id') id?: string): Promise<CommonResponse> {
+  async getCats(@Query('id') id?: number): Promise<CommonResponse> {
     if (id) {
-      const cat = await this.catsService.getCatByID(Number(id));
+      const cat = await this.catsService.getCatByID(id);
       if (!cat) throw new NotFoundException(`Cat with id "${id}" not found!`);
 
       return { message: 'This endpoint returns a cat by id!', body: cat };
@@ -31,7 +27,6 @@ export class CatsController {
   }
 
   @Get('random')
-  @UseGuards(AuthGuard)
   async randomCat(): Promise<CommonResponse> {
     const cats = await this.catsService.allCats();
     const randomIndex = Math.floor(Math.random() * cats.length);
@@ -51,7 +46,7 @@ export class CatsController {
   }
 
   @Delete('delete')
-  async deleteCat(@Query('id') id: string): Promise<{ message: string; body: Cat }> {
+  async deleteCat(@Query('id') id: string): Promise<CommonResponse> {
     const res = await this.catsService.deleteCatByID(Number(id));
     if (!res) throw new NotFoundException(`Cat with id "${id}" not found!`);
 

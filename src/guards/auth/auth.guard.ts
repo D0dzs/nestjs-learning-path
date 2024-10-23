@@ -16,9 +16,9 @@ export class AuthGuard implements CanActivate {
       },
     });
 
-    // {HOST}:{PORT}/token/create, body: {token: randomString} then you can use this endpoint ^-^
-    if (!isValidToken) throw new UnauthorizedException('Invalid Token...');
-    if (new Date() >= new Date(isValidToken.expiresAt)) throw new UnauthorizedException('Expired Token...');
+    // {HOST}:{PORT}/token/create, body: { token: randomString } then you can use the "Cat" endpoint ^-^
+    if (!isValidToken) throw new UnauthorizedException();
+    if (new Date() >= new Date(isValidToken.expiresAt)) throw new UnauthorizedException();
 
     return true;
   }
